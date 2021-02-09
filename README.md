@@ -1,2 +1,3 @@
 # ml-ideas
-Many cool ML Ideas I implement in one or a few notebooks.
+I have lots of machine learning ideas. Heres where they come to life in one or a few notebooks.
+
