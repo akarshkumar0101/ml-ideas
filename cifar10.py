@@ -6,15 +6,15 @@ from tqdm import tqdm
 
 import metrics
 
-class MNIST:
+class CIFAR10:
     def __init__(self, bs_train=1000, bs_test=3000):
         self.transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor(),
                                                     torchvision.transforms.Normalize((0.1307,), (0.3081,))])
 
-        self.ds_train = torchvision.datasets.MNIST('~/datasets/mnist', train=True,
-                                                   download=True, transform=self.transform)
-        self.ds_test = torchvision.datasets.MNIST('~/datasets/mnist', train=False,
-                                                  download=True, transform=self.transform)
+        self.ds_train = torchvision.datasets.CIFAR10('~/datasets/cifar10', train=True,
+                                                     download=True, transform=self.transform)
+        self.ds_test = torchvision.datasets.CIFAR10('~/datasets/cifar10', train=False,
+                                                    download=True, transform=self.transform)
         self.bs_train, self.bs_test = bs_train, bs_test
         self.dl_train = torch.utils.data.DataLoader(self.ds_train,
                                                     batch_size=self.bs_train, shuffle=True)
@@ -84,7 +84,7 @@ class Network(nn.Module):
     def __init__(self):
         super().__init__()
         self.seq = nn.Sequential(
-            nn.Conv2d(1, 8, 3, padding=1),
+            nn.Conv2d(3, 8, 3, padding=1),
             nn.MaxPool2d(2),
             nn.ReLU(),
             nn.Conv2d(8, 8, 3, padding=1),
@@ -104,33 +104,6 @@ class Network(nn.Module):
         x = self.classification(x)
         return x
     
-class BigNetwork(nn.Module):
-    def __init__(self):
-        super().__init__()
-        self.seq = nn.Sequential(
-            nn.Conv2d(1, 32, 3, padding=1),
-            nn.MaxPool2d(2),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, 3, padding=1),
-            nn.MaxPool2d(2),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, 3, padding=1),
-            nn.ReLU(),
-            nn.Conv2d(32, 32, 3, padding=1),
-            nn.MaxPool2d(3),
-        )
-        self.classification = nn.Sequential(
-            nn.Linear(128, 128),
-            nn.ReLU(),
-            nn.Linear(128, 128),
-            nn.ReLU(),
-            nn.Linear(128, 10),
-        )
-    def forward(self, x):
-        x = self.seq(x)
-        x = x.reshape(len(x), -1)
-        x = self.classification(x)
-        return x
     
     
 if __name__=='__main__':

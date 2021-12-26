@@ -15,6 +15,7 @@ import torch.utils.tensorboard as tb
 
 import metrics
 import mnist
+import cifar10
 
 np.random.seed(0)
 torch.manual_seed(10);
