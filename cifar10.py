@@ -104,6 +104,33 @@ class Network(nn.Module):
         x = self.classification(x)
         return x
     
+from torch import nn
+class BigNetwork(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.seq = nn.Sequential(
+            nn.Conv2d(3, 32, 3, padding=1),
+            nn.MaxPool2d(2),
+            nn.GELU(),
+            nn.Conv2d(32, 32, 3, padding=1),
+            nn.MaxPool2d(2),
+            nn.GELU(),
+            nn.Conv2d(32, 32, 3, padding=1),
+            nn.GELU(),
+            nn.Conv2d(32, 32, 3, padding=1),
+            nn.MaxPool2d(3),
+            nn.GELU(),
+        )
+        self.classification = nn.Sequential(
+            nn.Linear(128, 32),
+            nn.GELU(),
+            nn.Linear(32, 10),
+        )
+    def forward(self, x):
+        x = self.seq(x)
+        x = x.reshape(len(x), -1)
+        x = self.classification(x)
+        return x
     
     
 if __name__=='__main__':
