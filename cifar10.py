@@ -9,7 +9,7 @@ import metrics
 class CIFAR10:
     def __init__(self, bs_train=1000, bs_test=3000):
         self.transform = torchvision.transforms.Compose([torchvision.transforms.ToTensor(),
-                                                    torchvision.transforms.Normalize((0.1307,), (0.3081,))])
+                                                    torchvision.transforms.Normalize((0.4914, 0.4822, 0.4465), (0.247, 0.243, 0.261))])
 
         self.ds_train = torchvision.datasets.CIFAR10('~/datasets/cifar10', train=True,
                                                      download=True, transform=self.transform)

@@ -11,7 +11,7 @@ from torch import nn
 import torchvision
 
 from torchinfo import summary
-import torch.utils.tensorboard as tb
+# import torch.utils.tensorboard as tb
 
 import metrics
 import mnist
